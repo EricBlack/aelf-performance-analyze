@@ -139,7 +139,7 @@ def parse_warn(warn_log):
                 warn_summary[key] += 1
                 break
 
-    other_warn = len(lines)
+    other_warn = count
     for key in warn_summary:
         other_warn -= warn_summary[key]
         print('type={0}, count={1}'.format(warn_msgs[key], warn_summary[key]))
@@ -162,7 +162,7 @@ def parse_error(error_log):
                 error_summary[key] += 1
                 break
 
-    other_error = len(lines)
+    other_error = count
     for key in error_summary:
         other_error -= error_summary[key]
         print('type={0}, count={1}'.format(error_msgs[key], error_summary[key]))
