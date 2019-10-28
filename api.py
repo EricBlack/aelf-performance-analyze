@@ -1,6 +1,4 @@
 #! /usr/bin/python3
-# -*- coding: utf-8 -*-
-
 
 import requests
 import json
@@ -14,7 +12,7 @@ class ApiService(object):
 
     def get_request(self, api, *args):
         sub_url = rout.ApiCollection.sub_url(api)
-        url = self.base_url + str(sub_url).format(args)\
+        url = self.base_url + str(sub_url).format(args) \
             .replace("'", "").replace(",", "").replace("(", "").replace(")", "")
         response = requests.get(url)
 

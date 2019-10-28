@@ -3,7 +3,7 @@
 import os
 import sys
 
-from analyzer import parse_blocks, analyze_blocks, analyze_txs, analyze_continue_blocks, parse_warn, parse_error
+from analyzer import Analyzer
 
 if __name__ == "__main__":
     params = sys.argv
@@ -21,11 +21,12 @@ if __name__ == "__main__":
             warn_log = './log/warn.log'
             error_log = './log/error.log'
 
-            parse_blocks(log, start, end)
-            analyze_blocks(endpoint)
-            analyze_continue_blocks()
-            analyze_txs()
-            parse_warn(warn_log)
-            parse_error(error_log)
+            analyzer = Analyzer(endpoint)
+            analyzer.parse_blocks(log, start, end)
+            analyzer.analyze_blocks(endpoint)
+            analyzer.analyze_continue_blocks()
+            analyzer.analyze_txs()
+            analyzer.parse_warn(warn_log)
+            analyzer.parse_error(error_log)
 
     print('complete log analyze.')
