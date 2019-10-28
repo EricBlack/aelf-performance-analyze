@@ -13,7 +13,7 @@ if __name__ == "__main__":
         endpoint = str(params[1])
         start = int(params[2])
         end = int(params[3])
-        if start >= end:
+        if start > end != 0:
             print('start height should be bigger than end height.')
         else:
             status = os.system('bash ./script/parse_log.sh')
