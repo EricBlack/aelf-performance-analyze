@@ -50,11 +50,7 @@ class BlockAnalyzer(object):
         end_date = datetime.datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M:%S.%f')
         time_span = (end_date - start_date).seconds
         print('total {0} blocks executed transactions: {1}'.format(count, total_txs))
-        print('average transactions/second: {0}'.format(round(total_txs / time_span, 3)))
-        print('average seconds/block: {0}'.format(round(time_span / count, 3)))
+        print('average transactions/block: {0}'.format(round(total_txs / count, 2)))
+        print('average transactions/second: {0}'.format(round(total_txs / time_span, 2)))
+        print('average seconds/block: {0}'.format(round(time_span / count, 2)))
         print()
-
-
-if __name__ == "__main__":
-    block = BlockAnalyzer("http://192.168.197.40:8000")
-    block.get_blocks_txs(16000, 18000)

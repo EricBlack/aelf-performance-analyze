@@ -108,8 +108,11 @@ class Analyzer(object):
                 self.valid_blocks[height] = self.generate_blocks[height]
             else:
                 self.invalid_blocks[height] = self.generate_blocks[height]
-
-        print('valid blocks:{0}, forked blocks: {1}'.format(len(self.valid_blocks), len(self.invalid_blocks)))
+        valid_no = len(self.valid_blocks)
+        invalid_no = len(self.invalid_blocks)
+        total_no = len(self.generate_blocks)
+        print('valid blocks:{0}, forked blocks: {1}'.format(valid_no, invalid_no))
+        print('forked block percent: {0}%'.format(round(invalid_no * 100 / total_no, 2)))
         print()
 
     def analyze_continue_blocks(self):
@@ -172,7 +175,7 @@ class Analyzer(object):
         print()
 
     def parse_error(self, error_log):  # 分析错误信息行数
-        print("=>analyze warn log")
+        print("=>analyze error log")
         error_summary = {}
         for key in self.error_msgs.keys():
             error_summary[key] = 0
