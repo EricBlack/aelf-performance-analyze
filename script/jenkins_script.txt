@@ -4,7 +4,7 @@ whoami
 
 #更新脚本
 ansible -b dotnet -m shell -a "cd /data/www/test_offline/aelf-performance-analyze && git pull"
-ansible -b dotnet -m shell -a "cd /data/www/test_offline/ && rm -rf aelf-performance-analyze.tar.gz && tar -czvf aelf-performance-analyze.tar.gz aelf-performance-analyze"
+ansible -b dotnet -m shell -a "cd /data/www/test_offline/ && rm -rf aelf-performance-analyze.tar.gz && tar -czvf aelf-performance-analyze.tar.gz aelf-performance-analyze --exclude .git"
 
 
 #拷贝python脚本
