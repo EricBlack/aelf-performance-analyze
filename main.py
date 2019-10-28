@@ -4,6 +4,7 @@ import os
 import sys
 
 from analyzer import Analyzer
+from block import BlockAnalyzer
 
 if __name__ == "__main__":
     params = sys.argv
@@ -28,5 +29,9 @@ if __name__ == "__main__":
             analyzer.analyze_txs()
             analyzer.parse_warn(warn_log)
             analyzer.parse_error(error_log)
+
+            # analyze block and transactions for all nodes
+            block_analyzer = BlockAnalyzer(endpoint)
+            block_analyzer.get_blocks_txs(int(analyzer.begin), int(analyzer.endpoint))
 
     print('complete log analyze.')

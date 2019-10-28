@@ -15,6 +15,8 @@ class ApiService(object):
         url = self.base_url + str(sub_url).format(args) \
             .replace("'", "").replace(",", "").replace("(", "").replace(")", "")
         response = requests.get(url)
+        if response.status_code != 200:
+            raise Exception(response.reason)
 
         return response
 

@@ -28,6 +28,9 @@ class Analyzer(object):
         "err5": "Request chain 2113 failed"
     }
 
+    begin = ''
+    end = ''
+
     @staticmethod
     def read_file_line(file_name):
         with open(file_name, 'r') as f:
@@ -86,10 +89,10 @@ class Analyzer(object):
                 start_height = height
                 end_height = height
 
-        begin = sorted(self.generate_blocks.keys())[0]
-        end = sorted(self.generate_blocks.keys())[len(self.generate_blocks) - 1]
-        print('start time: {0}'.format(self.generate_blocks[begin]['time']))
-        print('end time: {0}'.format(self.generate_blocks[end]['time']))
+        self.begin = sorted(self.generate_blocks.keys())[0]
+        self.end = sorted(self.generate_blocks.keys())[len(self.generate_blocks) - 1]
+        print('start time: {0}'.format(self.generate_blocks[self.begin]['time']))
+        print('end time: {0}'.format(self.generate_blocks[self.end]['time']))
         print('generated blocks: {0}'.format(len(self.generate_blocks)))
         print('generated blocks round: {0}'.format(len(self.continue_blocks)))
         print()
@@ -100,8 +103,6 @@ class Analyzer(object):
 
         for height in self.generate_blocks.keys():
             block = service.get_request(rout.ApiCollection.GetBlockByHeight, height, "false")
-            if block.status_code != 200:
-                continue
             block_hash = block.json()['BlockHash']
             if block_hash == self.generate_blocks[height]["hash"]:
                 self.valid_blocks[height] = self.generate_blocks[height]

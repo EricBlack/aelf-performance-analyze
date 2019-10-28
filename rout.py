@@ -4,7 +4,6 @@ from enum import Enum
 
 
 class ApiCollection(Enum):
-    GetChainInformation = "/api/blockChain/chainStatus"
     GetChainStatus = "/api/blockChain/chainStatus"
     GetBlockHeight = "/api/blockChain/blockHeight"
     CreateRawTransaction = "/api/blockChain/rawTransaction"
