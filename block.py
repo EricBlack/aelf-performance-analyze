@@ -40,13 +40,16 @@ class BlockAnalyzer(object):
             blocks.append(block_info)
             total_txs += block_info['transactions']
 
+        print('check node from height: {0}~{1}'.format(start, end))
         count = end - start
         start_time_str = (blocks[0]['time'])[:-2]
         end_time_str = (blocks[count - 1]['time'])[:-2]
+        print('block time from: {0}~{1}'.format(start_time_str, end_time_str))
 
         start_date = datetime.datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M:%S.%f')
         end_date = datetime.datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M:%S.%f')
         time_span = (end_date - start_date).seconds
+        print('total {0} blocks executed transactions: {1}'.format(count, total_txs))
         print('average transactions/second: {0}'.format(round(total_txs / time_span, 3)))
         print('average seconds/block: {0}'.format(round(time_span / count, 3)))
         print()
