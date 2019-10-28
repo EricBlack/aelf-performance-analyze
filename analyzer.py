@@ -130,7 +130,8 @@ def parse_warn(warn_log):
         warn_summary[key] = 0
 
     lines = read_file_line(warn_log)
-    print("total warn message line: {0}".format(len(lines)))
+    count = file_line_count(warn_log)
+    print("total warn message line: {0}".format(count))
 
     for line in lines:
         for key in warn_msgs.keys():
@@ -153,7 +154,8 @@ def parse_error(error_log):
         error_summary[key] = 0
 
     lines = read_file_line(error_log)
-    print("total error message line: {0}".format(len(lines)))
+    count = file_line_count(error_log)
+    print("total error message line: {0}".format(count))
     for line in lines:
         for key in error_msgs.keys():
             if error_msgs[key] in line:
@@ -166,6 +168,15 @@ def parse_error(error_log):
         print('type={0}, count={1}'.format(error_msgs[key], error_summary[key]))
     print('type=others, count={0}'.format(other_error))
     print()
+
+
+def file_line_count(file):
+    count = -1
+    for count, line in enumerate(open(file, 'rU')):
+        pass
+    count += 1
+
+    return count
 
 
 warn_msgs = {
