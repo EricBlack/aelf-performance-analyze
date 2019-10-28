@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-echo '=>parse today log'
 #scp ubuntu@$1:/opt/node-1/Logs/2019-10-26.log ./
 log_path='/opt/node-1/Logs'
 date=`date '+%Y-%m-%d'`
+echo '=>parse ${date} log'
 
 if [[ ! -d ./log  ]];then
   mkdir ./log

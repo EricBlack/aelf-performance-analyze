@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
             analyzer = Analyzer(endpoint)
             analyzer.parse_blocks(log, start, end)
-            analyzer.analyze_blocks(endpoint)
+            analyzer.analyze_blocks()
             analyzer.analyze_continue_blocks()
             analyzer.analyze_txs()
             analyzer.parse_warn(warn_log)
