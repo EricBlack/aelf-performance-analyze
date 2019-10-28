@@ -31,7 +31,11 @@ if __name__ == "__main__":
             analyzer.parse_error(error_log)
 
             # analyze block and transactions for all nodes
+            if start == 0:
+                start = int(analyzer.begin)
+            if end == 0:
+                end = int(analyzer.end)
             block_analyzer = BlockAnalyzer(endpoint)
-            block_analyzer.get_blocks_txs(int(analyzer.begin), int(analyzer.end))
+            block_analyzer.get_blocks_txs(start, end)
 
     print('complete log analyze.')

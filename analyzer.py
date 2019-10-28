@@ -49,9 +49,6 @@ class Analyzer(object):
 
         return count
 
-    # parse message
-    # 2019-10-26 00:00:53,639 6bb39eab787b7a34c1ebf7cdc56daeb8eec3d69e49223a2f1b20fced3fc84a1e 282441 7232888909c8776fc0e3d581335ac3cadf38e91b24e1892a83996732dd59bdaf 3, 0
-
     def parse_blocks(self, log_file, low_height, high_height):
         print("=>analyze blocks")
 
