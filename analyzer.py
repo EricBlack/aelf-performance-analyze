@@ -134,7 +134,7 @@ class Analyzer(object):
         for height in range(self.begin, self.end):
             height_key = str(height)
             if height_key in generated_keys:
-                if self.generate_blocks[height_key]['hash'] == self.lib_hash_list[height_key]:
+                if self.generate_blocks[height_key]['hash'] == self.lib_hash_list[height_key]['hash']:
                     self.valid_blocks[height_key] = self.generate_blocks[height_key]
                 else:
                     self.invalid_blocks[height_key] = self.generate_blocks[height_key]
