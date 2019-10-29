@@ -117,6 +117,7 @@ class Analyzer(object):
             self.begin = begin
         if end < self.end:
             self.end = end
+        print()
 
     def analyze_blocks(self):
         print("=>analyze block")
@@ -134,7 +135,8 @@ class Analyzer(object):
         total_no = len(self.generate_blocks)
         print('valid blocks:{0}, forked blocks: {1}, none lib blocks: {2}'
               .format(valid_no, invalid_no, (total_no - valid_no - invalid_no)))
-        print('forked block percent: {0}%'.format(round(invalid_no * 100 / total_no, 2)))
+        if total_no != 0:
+            print('forked block percent: {0}%'.format(round(invalid_no * 100 / total_no, 2)))
         print()
 
     def analyze_continue_blocks(self):
@@ -169,8 +171,9 @@ class Analyzer(object):
             canceled_amounts += block_info['canceled_txs']
 
         print('total executedTxs: {0}, canceledTxs: {1}'.format(executed_amounts, canceled_amounts))
-        print('average each block executed txs: {0}, canceled txs: {1}'.format(round(executed_amounts / count, 2),
-                                                                               round(canceled_amounts / count, 2)))
+        if count != 0:
+            print('average each block executed txs: {0}, canceled txs: {1}'.format(round(executed_amounts / count, 2),
+                                                                                   round(canceled_amounts / count, 2)))
         print()
 
     def parse_warn(self, warn_log):  # 分析警告信息行数

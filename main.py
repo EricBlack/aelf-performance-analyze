@@ -32,18 +32,22 @@ if __name__ == "__main__":
             warn_log = './log/warn.log'
             error_log = './log/error.log'
 
-            analyzer = Analyzer(endpoint)
-            analyzer.parse_blocks(block_log, start, end)
-            analyzer.parse_libs(lib_log, start, end)
+            try:
+                analyzer = Analyzer(endpoint)
+                analyzer.parse_blocks(block_log, start, end)
+                analyzer.parse_libs(lib_log, start, end)
 
-            analyzer.analyze_blocks()
-            analyzer.analyze_continue_blocks()
-            analyzer.analyze_node_txs()
+                analyzer.analyze_blocks()
+                analyzer.analyze_continue_blocks()
+                analyzer.analyze_node_txs()
 
-            # analyze chain block and transactions online
-            if online:
-                block_analyzer = BlockAnalyzer(endpoint)
-                block_analyzer.analyze_chain_txs(analyzer.begin, analyzer.end)
+                # analyze chain block and transactions online
+                if online:
+                    block_analyzer = BlockAnalyzer(endpoint)
+                    block_analyzer.analyze_chain_txs(analyzer.begin, analyzer.end)
+
+            except Exception as e:
+                print('Exception: ', str(e))
 
             analyzer.parse_warn(warn_log)
             analyzer.parse_error(error_log)
