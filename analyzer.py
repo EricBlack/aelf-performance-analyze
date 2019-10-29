@@ -27,6 +27,7 @@ class Analyzer(object):
         "err4": "Execution cancelled",
         "err5": "Request chain 2113 failed"
     }
+    consensus_pair = {}
 
     begin = 0
     end = 0
@@ -229,3 +230,52 @@ class Analyzer(object):
             print('type={0}, count={1}'.format(self.error_msgs[key], error_summary[key]))
         print('type=others, count={0}'.format(other_error))
         print()
+
+    def parse_consensus_data(self, consensus_log):
+        print('=>analyze consensus extra data log')
+
+        consensus_summary = {
+            '0-10': 0,
+            '10-50': 0,
+            '50-100': 0,
+            '>100': 0
+        }
+        lines = Analyzer.read_file_line(consensus_log)
+        tx_id = ''
+        enter_str = ''
+        for line in lines:
+            message = line.split(" ")
+            time = message[0]
+            id_info = message[1]
+            method = message[2].replace("\n", "")
+            if method == 'Entered':
+                tx_id = id_info
+                enter_str = time
+            elif method == 'Leaving' and id_info == tx_id:
+                leave_str = time
+                enter = datetime.datetime.strptime(enter_str, '%H:%M:%S,%f')
+                leave = datetime.datetime.strptime(leave_str, '%H:%M:%S,%f')
+                timespan = int((leave - enter).microseconds/1000)
+                self.consensus_pair[tx_id] = {
+                    'enter': enter,
+                    'leave': leave,
+                    'timespan': timespan
+                }
+                # summary info
+                if timespan < 10:
+                    consensus_summary['0-10'] += 1
+                elif 10 < timespan < 50:
+                    consensus_summary['10-50'] += 1
+                elif 50 < timespan < 100:
+                    consensus_summary['50-100'] += 1
+                else:
+                    consensus_summary['>100'] += 1
+
+        for item in consensus_summary.keys():
+            print('type: {0:6}ms, count: {1}'.format(item, consensus_summary[item]))
+        print()
+
+
+if __name__ == "__main__":
+    analyzer = Analyzer('http://127.0.0.1:80000')
+    analyzer.parse_consensus_data('./log/consensus-extra-data.log')

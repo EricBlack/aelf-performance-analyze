@@ -31,6 +31,7 @@ if __name__ == "__main__":
             lib_log = './log/lib-blocks.log'
             warn_log = './log/warn.log'
             error_log = './log/error.log'
+            consensus_log = './log/consensus-extra-data.log'
 
             try:
                 analyzer = Analyzer(endpoint)
@@ -50,6 +51,7 @@ if __name__ == "__main__":
                 print('Exception: ', str(e))
                 print()
 
+            analyzer.parse_consensus_data(consensus_log)
             analyzer.parse_warn(warn_log)
             analyzer.parse_error(error_log)
 
