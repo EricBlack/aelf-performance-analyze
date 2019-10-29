@@ -19,12 +19,15 @@ if __name__ == "__main__":
             print('start height should be bigger than end height.')
         else:
             status = os.system('bash ./script/parse_log.sh')
-            log = './log/gen-blocks.log'
+            block_log = './log/gen-blocks.log'
+            lib_log = './log/lib-blocks.log'
             warn_log = './log/warn.log'
             error_log = './log/error.log'
 
             analyzer = Analyzer(endpoint)
-            analyzer.parse_blocks(log, start, end)
+            analyzer.parse_blocks(block_log, start, end)
+            analyzer.parse_libs(lib_log, start, end)
+
             analyzer.analyze_blocks()
             analyzer.analyze_continue_blocks()
             analyzer.analyze_node_txs()
