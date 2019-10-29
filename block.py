@@ -44,7 +44,7 @@ class BlockAnalyzer(object):
         count = end - start
         start_time_str = (blocks[0]['time'])[:-2]
         end_time_str = (blocks[count - 1]['time'])[:-2]
-        print('block time from: {0}~{1}'.format(start_time_str, end_time_str))
+        print('block time: {0}~{1}'.format(start_time_str, end_time_str))
 
         start_date = datetime.datetime.strptime(start_time_str, '%Y-%m-%dT%H:%M:%S.%f')
         end_date = datetime.datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M:%S.%f')

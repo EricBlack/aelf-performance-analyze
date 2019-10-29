@@ -16,7 +16,7 @@ class ApiService(object):
         sub_url = rout.ApiCollection.sub_url(api)
         url = self.base_url + str(sub_url).format(args) \
             .replace("'", "").replace(",", "").replace("(", "").replace(")", "")
-        response: Response = requests.get(url)
+        response = requests.get(url)
         if response.status_code != 200:
             raise Exception(response.reason)
 
