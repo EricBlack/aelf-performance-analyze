@@ -1,7 +1,6 @@
 #! /usr/bin/python3
 
-import api
-import rout
+import datetime
 
 
 class Analyzer(object):
@@ -100,15 +99,17 @@ class Analyzer(object):
         lines = Analyzer.read_file_line(lib_file)
         for line in lines:
             message = line.split(" ")
-            height = int(str(message[0]).replace(",", ""))
-            lib_hash = message[1].replace("\n", "")
+            time = message[0] + ' ' + message[1]
+            height = int(str(message[2]).replace(",", ""))
+            lib_hash = message[3].replace("\n", "")
 
             if low_height != 0 and height < low_height:
                 continue
             if high_height != 0 and height > high_height:
                 break
 
-            self.lib_hash_list[str(height)] = lib_hash
+            lib_info = {'time': time, 'hash': lib_hash}
+            self.lib_hash_list[str(height)] = lib_info
         # update height based on lib
         sorted_keys = sorted(self.lib_hash_list.keys())
         begin = int(sorted_keys[0])
@@ -117,6 +118,13 @@ class Analyzer(object):
             self.begin = begin
         if end < self.end:
             self.end = end
+        # analyze block timespan
+        begin_date = datetime.datetime.strptime(self.lib_hash_list[str(begin)]['time'], '%Y-%m-%d %H:%M:%S,%f')
+        end_date = datetime.datetime.strptime(self.lib_hash_list[str(end)]['time'], '%Y-%m-%d %H:%M:%S,%f')
+        time_span = (end_date - begin_date).seconds
+        print('lib height from: {0}~{1}'.format(self.begin, self.end))
+        print('lib time: {0}~{1}'.format(self.lib_hash_list[str(begin)]['time'], self.lib_hash_list[str(end)]['time']))
+        print('average second/block: {0}s'.format(round(time_span / (self.end - self.begin), 3)))
         print()
 
     def analyze_blocks(self):

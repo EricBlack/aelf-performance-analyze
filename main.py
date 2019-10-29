@@ -48,6 +48,7 @@ if __name__ == "__main__":
 
             except Exception as e:
                 print('Exception: ', str(e))
+                print()
 
             analyzer.parse_warn(warn_log)
             analyzer.parse_error(error_log)
