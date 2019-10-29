@@ -123,15 +123,17 @@ class Analyzer(object):
 
         generated_keys = self.generate_blocks.keys()
         for height in range(self.begin, self.end):
-            if str(height) in generated_keys:
-                if self.generate_blocks[str(height)]['hash'] == self.lib_hash_list[str(height)]:
-                    self.valid_blocks[height] = self.generate_blocks[height]
+            height_key = str(height)
+            if height_key in generated_keys:
+                if self.generate_blocks[height_key]['hash'] == self.lib_hash_list[height_key]:
+                    self.valid_blocks[height_key] = self.generate_blocks[height_key]
                 else:
-                    self.invalid_blocks[height] = self.generate_blocks[height]
+                    self.invalid_blocks[height_key] = self.generate_blocks[height_key]
         valid_no = len(self.valid_blocks)
         invalid_no = len(self.invalid_blocks)
         total_no = len(self.generate_blocks)
-        print('valid blocks:{0}, forked blocks: {1}, none lib blocks: {2}'.format(valid_no, invalid_no, (total_no - valid_no - invalid_no)))
+        print('valid blocks:{0}, forked blocks: {1}, none lib blocks: {2}'
+              .format(valid_no, invalid_no, (total_no - valid_no - invalid_no)))
         print('forked block percent: {0}%'.format(round(invalid_no * 100 / total_no, 2)))
         print()
 
