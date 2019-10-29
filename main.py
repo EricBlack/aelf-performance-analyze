@@ -8,12 +8,13 @@ from block import BlockAnalyzer
 
 if __name__ == "__main__":
     params = sys.argv
-    if len(params) != 4:
+    if len(params) != 5:
         print('wrong parameters, three parameters needed.')
     else:
         endpoint = str(params[1])
         start = int(params[2])
         end = int(params[3])
+        online = bool(params[4])
         if start > end != 0:
             print('start height should be bigger than end height.')
         else:
@@ -28,13 +29,10 @@ if __name__ == "__main__":
             analyzer.analyze_continue_blocks()
             analyzer.analyze_node_txs()
 
-            # analyze chain block and transactions
-            if start == 0:
-                start = int(analyzer.begin)
-            if end == 0:
-                end = int(analyzer.end)
-            block_analyzer = BlockAnalyzer(endpoint)
-            block_analyzer.analyze_chain_txs(start, end)
+            # analyze chain block and transactions online
+            if online:
+                block_analyzer = BlockAnalyzer(endpoint)
+                block_analyzer.analyze_chain_txs(analyzer.begin, analyzer.end)
 
             analyzer.parse_warn(warn_log)
             analyzer.parse_error(error_log)

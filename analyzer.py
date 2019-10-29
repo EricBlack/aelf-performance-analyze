@@ -12,14 +12,15 @@ class Analyzer(object):
     valid_blocks = {}
     invalid_blocks = {}
     continue_blocks = {}
+    lib_hash_list = {}
 
+    # warn and error messages
     warn_msgs = {
         "warn1": "Switch Longest chain",
         "warn2": "Block validate fails before execution",
         "warn3": "Mining canceled because best chain already updated",
         "warn4": "cannot get block hash",
     }
-
     error_msgs = {
         "err1": "Error during discover",
         "err2": "Time slot already passed before execution",
@@ -28,8 +29,8 @@ class Analyzer(object):
         "err5": "Request chain 2113 failed"
     }
 
-    begin = ''
-    end = ''
+    begin = 0
+    end = 0
 
     @staticmethod
     def read_file_line(file_name):
@@ -49,13 +50,13 @@ class Analyzer(object):
 
         return count
 
-    def parse_blocks(self, log_file, low_height, high_height):
+    def parse_blocks(self, block_file, low_height, high_height):
         print("=>analyze blocks")
 
         start_height = 0
         end_height = 0
 
-        lines = Analyzer.read_file_line(log_file)
+        lines = Analyzer.read_file_line(block_file)
         for line in lines:
             message = line.split(" ")
             time = message[0] + ' ' + message[1]
@@ -86,29 +87,51 @@ class Analyzer(object):
                 start_height = height
                 end_height = height
 
-        self.begin = sorted(self.generate_blocks.keys())[0]
-        self.end = sorted(self.generate_blocks.keys())[len(self.generate_blocks) - 1]
-        print('start time: {0}'.format(self.generate_blocks[self.begin]['time']))
-        print('end time: {0}'.format(self.generate_blocks[self.end]['time']))
+        self.begin = int(sorted(self.generate_blocks.keys())[0])
+        self.end = int(sorted(self.generate_blocks.keys())[len(self.generate_blocks) - 1])
+        print('start time: {0}'.format(self.generate_blocks[str(self.begin)]['time']))
+        print('end time: {0}'.format(self.generate_blocks[str(self.end)]['time']))
         print('generated blocks: {0}'.format(len(self.generate_blocks)))
         print('generated blocks round: {0}'.format(len(self.continue_blocks)))
         print()
 
+    def parse_libs(self, lib_file, low_height, high_height):
+        print('=>analyze libs')
+        lines = Analyzer.read_file_line(lib_file)
+        for line in lines:
+            message = line.split(" ")
+            height = int(str(message[0]).replace(",", ""))
+            lib_hash = message[1]
+
+            if low_height != 0 and height < low_height:
+                continue
+            if high_height != 0 and height > high_height:
+                break
+
+            self.lib_hash_list[str(height)] = lib_hash
+        # update height based on lib
+        sorted_keys = sorted(self.lib_hash_list.keys())
+        begin = int(sorted_keys[0])
+        end = int(sorted_keys[len(sorted_keys) - 1])
+        if begin > self.begin:
+            self.begin = begin
+        if end < self.end:
+            self.end = end
+
     def analyze_blocks(self):
         print("=>analyze block")
-        service = api.ApiService(self.endpoint)
 
-        for height in self.generate_blocks.keys():
-            block = service.get_request(rout.ApiCollection.GetBlockByHeight, height, "false")
-            block_hash = block.json()['BlockHash']
-            if block_hash == self.generate_blocks[height]["hash"]:
-                self.valid_blocks[height] = self.generate_blocks[height]
-            else:
-                self.invalid_blocks[height] = self.generate_blocks[height]
+        generated_keys = self.generate_blocks.keys()
+        for height in range(self.begin, self.end):
+            if str(height) in generated_keys:
+                if self.generate_blocks[str(height)]['hash'] == self.lib_hash_list[str(height)]:
+                    self.valid_blocks[height] = self.generate_blocks[height]
+                else:
+                    self.invalid_blocks[height] = self.generate_blocks[height]
         valid_no = len(self.valid_blocks)
         invalid_no = len(self.invalid_blocks)
         total_no = len(self.generate_blocks)
-        print('valid blocks:{0}, forked blocks: {1}'.format(valid_no, invalid_no))
+        print('valid blocks:{0}, forked blocks: {1}, none lib blocks: {2}'.format(valid_no, invalid_no, (total_no - valid_no - invalid_no)))
         print('forked block percent: {0}%'.format(round(invalid_no * 100 / total_no, 2)))
         print()
 

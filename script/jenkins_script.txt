@@ -12,4 +12,4 @@ ansible -b node -m shell -a "cd /opt/scripts && rm -rf  aelf-performance-analyze
 
 
 #执行脚本
-ansible -b node -m shell -a "cd /opt/scripts/aelf-performance-analyze && python main.py http://127.0.0.1:8000 $start $end"
+ansible -b node -m shell -a "cd /opt/scripts/aelf-performance-analyze && python main.py http://127.0.0.1:8000 $start $end $online"
