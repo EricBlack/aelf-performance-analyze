@@ -6,19 +6,27 @@ import sys
 from analyzer import Analyzer
 from block import BlockAnalyzer
 
+
+def str2bool(info):
+    if info in ['true', 'TRUE', 'True', 'y', 'Y']:
+        return True
+    return False
+
+
 if __name__ == "__main__":
     params = sys.argv
     if len(params) != 5:
-        print('wrong parameters, three parameters needed.')
+        print('wrong parameters, four parameters needed.')
     else:
         endpoint = str(params[1])
         start = int(params[2])
         end = int(params[3])
-        online = bool(params[4])
+        online = str2bool(params[4])
         if start > end != 0:
             print('start height should be bigger than end height.')
         else:
             status = os.system('bash ./script/parse_log.sh')
+            # status = os.system('bash ./script/parse_remote_log.sh')
             block_log = './log/gen-blocks.log'
             lib_log = './log/lib-blocks.log'
             warn_log = './log/warn.log'

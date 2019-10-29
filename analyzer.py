@@ -101,7 +101,7 @@ class Analyzer(object):
         for line in lines:
             message = line.split(" ")
             height = int(str(message[0]).replace(",", ""))
-            lib_hash = message[1]
+            lib_hash = message[1].replace("\n", "")
 
             if low_height != 0 and height < low_height:
                 continue
