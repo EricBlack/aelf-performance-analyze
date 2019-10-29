@@ -133,8 +133,8 @@ class Analyzer(object):
         print('standard: {0}, more blocks: {1}, less blocks: {2}'.format(standard_no, enough_no, less_no))
         print()
 
-    def analyze_txs(self):
-        print("=>analyze transactions")
+    def analyze_node_txs(self):
+        print("=>analyze node transactions")
         executed_amounts = 0
         canceled_amounts = 0
         count = len(self.generate_blocks)

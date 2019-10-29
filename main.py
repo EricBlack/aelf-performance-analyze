@@ -26,16 +26,17 @@ if __name__ == "__main__":
             analyzer.parse_blocks(log, start, end)
             analyzer.analyze_blocks()
             analyzer.analyze_continue_blocks()
-            analyzer.analyze_txs()
-            analyzer.parse_warn(warn_log)
-            analyzer.parse_error(error_log)
+            analyzer.analyze_node_txs()
 
-            # analyze block and transactions for all nodes
+            # analyze chain block and transactions
             if start == 0:
                 start = int(analyzer.begin)
             if end == 0:
                 end = int(analyzer.end)
             block_analyzer = BlockAnalyzer(endpoint)
-            block_analyzer.get_blocks_txs(start, end)
+            block_analyzer.analyze_chain_txs(start, end)
+
+            analyzer.parse_warn(warn_log)
+            analyzer.parse_error(error_log)
 
     print('complete log analyze.')

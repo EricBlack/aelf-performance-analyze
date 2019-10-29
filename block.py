@@ -29,8 +29,8 @@ class BlockAnalyzer(object):
             'transactions': block_info['Body']['TransactionsCount']
         }
 
-    def get_blocks_txs(self, start, end):
-        print('=>get blocks transactions')
+    def analyze_chain_txs(self, start, end):
+        print('=>analyze chain transactions')
         total_txs = 0
         blocks = []
         if end < start:
