@@ -50,7 +50,7 @@ class Analyzer(object):
         return count
 
     def parse_blocks(self, block_file, low_height, high_height):
-        print("=>analyze blocks")
+        print("=>parse blocks")
 
         start_height = 0
         end_height = 0
@@ -86,8 +86,9 @@ class Analyzer(object):
                 start_height = height
                 end_height = height
 
-        self.begin = int(sorted(self.generate_blocks.keys())[0])
-        self.end = int(sorted(self.generate_blocks.keys())[len(self.generate_blocks) - 1])
+        sorted_keys = sorted(self.generate_blocks.keys(), key=lambda x: int(x))
+        self.begin = int(sorted_keys[0])
+        self.end = int(sorted_keys[-1])
         print('start time: {0}'.format(self.generate_blocks[str(self.begin)]['time']))
         print('end time: {0}'.format(self.generate_blocks[str(self.end)]['time']))
         print('generated blocks: {0}'.format(len(self.generate_blocks)))
@@ -95,7 +96,7 @@ class Analyzer(object):
         print()
 
     def parse_libs(self, lib_file, low_height, high_height):
-        print('=>analyze libs')
+        print('=>parse libs')
         lines = Analyzer.read_file_line(lib_file)
         for line in lines:
             message = line.split(" ")
@@ -111,9 +112,9 @@ class Analyzer(object):
             lib_info = {'time': time, 'hash': lib_hash}
             self.lib_hash_list[str(height)] = lib_info
         # update height based on lib
-        sorted_keys = sorted(self.lib_hash_list.keys())
+        sorted_keys = sorted(self.lib_hash_list.keys(), key=lambda x: int(x))
         begin = int(sorted_keys[0])
-        end = int(sorted_keys[len(sorted_keys) - 1])
+        end = int(sorted_keys[-1])
         if begin > self.begin:
             self.begin = begin
         if end < self.end:
@@ -128,7 +129,7 @@ class Analyzer(object):
         print()
 
     def analyze_blocks(self):
-        print("=>analyze block")
+        print("=>analyze blocks")
 
         generated_keys = self.generate_blocks.keys()
         for height in range(self.begin, self.end):
