@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-log_path='/opt/node-1/Logs'
+log_path=$1
 date_info=`date '+%Y-%m-%d'`
 echo "=>parse ${date_info} log"
 if [[ ! -d ./log  ]];then
   mkdir ./log
 fi
 
-scp ubuntu@192.168.197.43:/home/aelf/config/bp/Logs/${date_info}.log ./log
+scp ubuntu@192.168.197.43:${log_path}/${date_info}.log ./log
 
 grep "Generated block" ./log/${date_info}.log |grep -v "grep" |awk '{print $1, $2, substr($11,2,64), $13, substr($16,2,64), $19, $23}' >./log/gen-blocks.log
 grep "Setting chain lib" ./log/${date_info}.log |grep -v "grep" |awk '{print $1, $2, $11, substr($15,2,64)}' >./log/lib-blocks.log

@@ -131,7 +131,6 @@ class Analyzer(object):
 
     def analyze_blocks(self):
         print("=>analyze blocks")
-
         generated_keys = self.generate_blocks.keys()
         for height in range(self.begin, self.end):
             height_key = str(height)
@@ -240,6 +239,7 @@ class Analyzer(object):
             '50-100': 0,
             '>100': 0
         }
+
         lines = Analyzer.read_file_line(consensus_log)
         tx_id = ''
         enter_str = ''
@@ -255,7 +255,7 @@ class Analyzer(object):
                 leave_str = time
                 enter = datetime.datetime.strptime(enter_str, '%H:%M:%S,%f')
                 leave = datetime.datetime.strptime(leave_str, '%H:%M:%S,%f')
-                timespan = int((leave - enter).microseconds/1000)
+                timespan = int((leave - enter).microseconds / 1000)
                 self.consensus_pair[tx_id] = {
                     'enter': enter,
                     'leave': leave,

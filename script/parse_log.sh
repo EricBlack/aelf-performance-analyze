@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-#scp ubuntu@$1:/opt/node-1/Logs/2019-10-26.log ./
-log_path='/opt/node-1/Logs'
+log_path= $1
 date_info=`date '+%Y-%m-%d'`
 echo "=>parse ${date_info} log"
 

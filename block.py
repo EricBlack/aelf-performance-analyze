@@ -52,5 +52,5 @@ class BlockAnalyzer(object):
         print('total {0} blocks executed transactions: {1}'.format(count, total_txs))
         print('average transactions/block: {0}'.format(round(total_txs / count, 2)))
         print('average transactions/second: {0}'.format(round(total_txs / time_span, 2)))
-        print('average seconds/block: {0}'.format(round(time_span / count, 2)))
+        print('average seconds/block: {0}s'.format(round(time_span / count, 3)))
         print()
