@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-log_path= $1
+log_path=$1
 date_info=`date '+%Y-%m-%d'`
 echo "=>parse ${date_info} log"
-
 if [[ ! -d ./log  ]];then
   mkdir ./log
 fi
