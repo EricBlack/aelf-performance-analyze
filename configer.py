@@ -49,6 +49,24 @@ def read_config(section):
     }
 
 
+def read_db_config(section):
+    cfg = ConfigParser()
+    cfg.read('config.ini')
+    sections = cfg.sections()
+    if section not in sections:
+        raise Exception('wrong config section name')
+    ip = cfg.get(section, 'ip')
+    user = cfg.get(section, 'user')
+    pwd = cfg.get(section, 'pwd')
+    db = cfg.get(section, 'db')
+    return {
+        'ip': ip,
+        'user': user,
+        'pwd': pwd,
+        'db': db
+    }
+
+
 def str2bool(info):
     if info in ['true', 'TRUE', 'True', 'y', 'Y']:
         return True

@@ -86,7 +86,9 @@ class Analyzer(object):
                 self.continue_blocks[number] = continue_info
                 start_height = height
                 end_height = height
-
+        if len(self.generate_blocks) == 0:
+            print('no block generated for this node.')
+            return
         sorted_keys = sorted(self.generate_blocks.keys(), key=lambda x: int(x))
         self.begin = int(sorted_keys[0])
         self.end = int(sorted_keys[-1])
