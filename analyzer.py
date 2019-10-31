@@ -120,7 +120,7 @@ class Analyzer(object):
         end = int(sorted_keys[-1])
         if begin > self.begin:
             self.begin = begin
-        if end < self.end:
+        if end < self.end or self.end == 0:
             self.end = end
         # analyze block timespan
         begin_date = datetime.datetime.strptime(self.lib_hash_list[str(begin)]['time'], '%Y-%m-%d %H:%M:%S,%f')
@@ -133,6 +133,8 @@ class Analyzer(object):
 
     def analyze_blocks(self):
         print("=>analyze blocks")
+        if len(self.generate_blocks) == 0:
+            return
         generated_keys = self.generate_blocks.keys()
         for height in range(self.begin, self.end):
             height_key = str(height)
@@ -152,6 +154,8 @@ class Analyzer(object):
 
     def analyze_continue_blocks(self):
         print("=>analyze continue blocks")
+        if len(self.generate_blocks) == 0:
+            return
         enough_no = 0
         standard_no = 0
         less_no = 0
@@ -173,6 +177,8 @@ class Analyzer(object):
 
     def analyze_node_txs(self):
         print("=>analyze node transactions")
+        if len(self.generate_blocks) == 0:
+            return
         executed_amounts = 0
         canceled_amounts = 0
         count = len(self.generate_blocks)
