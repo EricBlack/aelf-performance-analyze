@@ -24,18 +24,16 @@ if __name__ == "__main__":
         analyzer.analyze_blocks()
         analyzer.analyze_continue_blocks()
         analyzer.analyze_node_txs()
-
         # analyze chain block and transactions online
         if config.Online:
             block_analyzer = BlockAnalyzer(config.Endpoint)
             block_analyzer.analyze_chain_txs(analyzer.begin, analyzer.end)
-
+        # analyze log info
+        analyzer.parse_consensus_data(consensus_log)
+        analyzer.parse_warn(warn_log)
+        analyzer.parse_error(error_log)
     except Exception as e:
         print('Exception: ', str(e))
         print()
-
-    analyzer.parse_consensus_data(consensus_log)
-    analyzer.parse_warn(warn_log)
-    analyzer.parse_error(error_log)
 
 print('complete log analyze.')
