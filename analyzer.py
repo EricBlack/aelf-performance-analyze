@@ -114,6 +114,9 @@ class Analyzer(object):
 
             lib_info = {'time': time, 'hash': lib_hash}
             self.lib_hash_list[str(height)] = lib_info
+        if len(self.lib_hash_list) == 0:
+            print('no lib height and hash info')
+            return
         # update height based on lib
         sorted_keys = sorted(self.lib_hash_list.keys(), key=lambda x: int(x))
         begin = int(sorted_keys[0])

@@ -1,15 +1,12 @@
 BUILD_ID=DONTKILLME
 whoami
 
-
 #更新脚本
 ansible -b dotnet -m shell -a "cd /data/www/test_offline/aelf-performance-analyze && git pull"
 ansible -b dotnet -m shell -a "cd /data/www/test_offline/ && rm -rf aelf-performance-analyze.tar.gz && tar -czvf aelf-performance-analyze.tar.gz aelf-performance-analyze --exclude .git"
 
-
 #拷贝python脚本
 ansible -b node -m shell -a "cd /opt/scripts && rm -rf  aelf-performance-analyze  aelf-performance-analyze.tar.gz && wget http://192.168.199.205/test_offline/aelf-performance-analyze.tar.gz && tar xf aelf-performance-analyze.tar.gz"
-
 
 #执行脚本 env=[online-env, test-env1, test-env2, test-3vm]
 ansible -b node -m shell -a "cd /opt/scripts/aelf-performance-analyze && python main.py test-3vm $start $end $online"
