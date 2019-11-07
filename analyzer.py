@@ -172,9 +172,9 @@ class Analyzer(object):
             else:
                 less_no += 1
                 # print('blocks: {0}~{1}, count: {2}'.format(block['start'], block['end'], block['blocks']))
-
-        print('average each round generated blocks: {0}'.format(
-            round(len(self.generate_blocks) / len(self.continue_blocks), 2)))
+        if len(self.continue_blocks) != 0:
+            print('average each round generated blocks: {0}'.format(
+                round(len(self.generate_blocks) / len(self.continue_blocks), 2)))
         print('standard: {0}, more blocks: {1}, less blocks: {2}'.format(standard_no, enough_no, less_no))
         print()
 
@@ -185,12 +185,16 @@ class Analyzer(object):
         executed_amounts = 0
         canceled_amounts = 0
         count = len(self.generate_blocks)
+        only_system_txs = 0
         for height in self.generate_blocks:
             block_info = self.generate_blocks[height]
             executed_amounts += block_info['executed_txs']
             canceled_amounts += block_info['canceled_txs']
+            if block_info['executed_txs'] == 3 and block_info['canceled_txs'] == 0:
+                only_system_txs += 1
 
         print('total executedTxs: {0}, canceledTxs: {1}'.format(executed_amounts, canceled_amounts))
+        print('custom txs blocks: {0}, only system txs blocks: {1}'.format(count - only_system_txs, only_system_txs))
         if count != 0:
             print('average each block executed txs: {0}, canceled txs: {1}'.format(round(executed_amounts / count, 2),
                                                                                    round(canceled_amounts / count, 2)))

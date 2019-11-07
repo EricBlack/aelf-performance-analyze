@@ -4,6 +4,7 @@ from enum import Enum
 
 
 class ApiCollection(Enum):
+    # Get API
     GetChainStatus = "/api/blockChain/chainStatus"
     GetBlockHeight = "/api/blockChain/blockHeight"
     CreateRawTransaction = "/api/blockChain/rawTransaction"
@@ -21,6 +22,7 @@ class ApiCollection(Enum):
     GetTransactionResult = "/api/blockChain/transactionResult?transactionId={0}"
     GetTransactionResults = "/api/blockChain/transactionResults?blockHash={0[0]}&offset={0[1]}&limit={0[2]}"
     CurrentRoundInformation = "/api/blockChain/currentRoundInformation"
+    # Post API
 
     @staticmethod
     def sub_url(api):
