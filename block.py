@@ -26,12 +26,14 @@ class BlockAnalyzer(object):
             'hash': block_info['BlockHash'],
             'time': block_info['Header']['Time'],
             'height': block_info['Header']['Height'],
+            'header_size': len(str(block_info['Header'])),
             'transactions': block_info['Body']['TransactionsCount']
         }
 
     def analyze_chain_txs(self, start, end):
         print('=>analyze chain transactions')
         total_txs = 0
+        total_headers_size = 0
         blocks = []
         if end < start:
             raise Exception('wrong start and end block height parameter')
@@ -39,6 +41,7 @@ class BlockAnalyzer(object):
             block_info = self.get_block_info(height)
             blocks.append(block_info)
             total_txs += block_info['transactions']
+            total_headers_size += block_info['header_size']
 
         print('check node from height: {0}~{1}'.format(start, end))
         count = end - start
@@ -50,6 +53,7 @@ class BlockAnalyzer(object):
         end_date = datetime.datetime.strptime(end_time_str, '%Y-%m-%dT%H:%M:%S.%f')
         time_span = (end_date - start_date).seconds
         print('total {0} blocks executed transactions: {1}'.format(count, total_txs))
+        print('average header_size/block: {0}'.format(round(total_headers_size / count, 2)))
         print('average transactions/block: {0}'.format(round(total_txs / count, 2)))
         print('average transactions/second: {0}'.format(round(total_txs / time_span, 2)))
         print('average seconds/block: {0}s'.format(round(time_span / count, 3)))
