@@ -30,7 +30,7 @@ fi
 echo "=>parse log: ${log_path}"
 data_path=${program_path}/log
 if [[ ! -d "${data_path}"  ]];then
-    mkdir
+    mkdir ${data_path}
 else
     rm -rf ${data_path}/*
 fi
