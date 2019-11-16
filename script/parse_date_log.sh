@@ -20,7 +20,7 @@ fi
 cd ${log_path}
 file_count=`ls |grep ".gz" |wc -l`
 if [[ ${file_count} > 0 ]];then
-    for file in ./*.log.gz
+    for file in ./*.gz
     do
         echo "uncompress file: ${file}"
         gzip ${file} -d
