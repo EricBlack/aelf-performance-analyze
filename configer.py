@@ -12,7 +12,8 @@ class ConfigInfo(object):
 
     def get_config(self):
         params = sys.argv
-        if len(params) != 5:
+        count = len(params)
+        if count != 5 and count != 6:
             raise Exception('wrong parameters, four parameters needed.')
 
         section = params[1]
@@ -20,7 +21,7 @@ class ConfigInfo(object):
         end = int(params[3])
         online = str2bool(params[4])
         config = read_config(section)
-        self.LogPath = config['log_path']
+        self.LogPath = config['log_path'] if count == 5 else params[5]
         self.Endpoint = config['endpoint']
         if start > end:
             raise Exception('start height should be bigger than end height.')

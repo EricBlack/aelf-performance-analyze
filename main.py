@@ -1,6 +1,8 @@
 #! /usr/bin/python3
 
 import os
+import sys
+
 from analyzer import Analyzer
 from block import BlockAnalyzer
 from configer import config_instance
@@ -14,8 +16,10 @@ consensus_log = './log/consensus-extra-data.log'
 
 if __name__ == "__main__":
     config = config_instance.get_config()
-    status = os.system('bash ./script/parse_log.sh {0}'.format(config.LogPath))
-    # status = os.system('bash ./script/parse_remote_log.sh {0}'.format(config.LogPath))
+    status_info = os.system('bash ./script/parse_date_log.sh {0}'.format(config.LogPath))
+    status = status_info >> 8
+    if status == 1:
+        sys.exit()
     try:
         analyzer = Analyzer(config.Endpoint)
         analyzer.parse_blocks(block_log, config.Start, config.End)
@@ -36,4 +40,4 @@ if __name__ == "__main__":
         print('Exception: ', str(e))
         print()
 
-print('complete log analyze.')
+    print('complete log analyze.')
