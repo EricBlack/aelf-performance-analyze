@@ -68,7 +68,7 @@ class Analyzer(object):
                 break
 
             previous_hash = message[4]
-            executed_txs = int(str(message[5]).replace(",", ""))
+            executed_txs = int(str(message[5]).replace(',', ''))
             canceled_txs = int(message[6])
 
             block_info = {'time': time, 'height': height, 'hash': current_hash, 'previous': previous_hash,
@@ -302,7 +302,7 @@ class Analyzer(object):
 
         total_times = 0
         for line in lines:
-            message = line.split(" ")
+            message = line.lstrip().split(" ")
             times = int(message[0])
             total_times += times
         print('received block announce: {0}, total received times: {1}'.format(count, total_times))
@@ -313,9 +313,9 @@ class Analyzer(object):
         lines = Analyzer.read_file_line(network_peer_log)
         peer_info = {}
         for line in lines:
-            message = line.split(" ")
+            message = line.lstrip().split(" ")
             count = int(message[0])
-            peer = message[1].replace(",", "")
+            peer = message[1].replace(',', '').replace('\r', '').replace('\n', '')
             if peer in peer_info.keys():
                 peer_info[peer] += count
             else:
@@ -323,8 +323,10 @@ class Analyzer(object):
 
         sort_items = sorted(peer_info.items(), key=lambda d: d[1])
         print('node received announcement times from peer info:')
+        count = 0
         for item in sort_items:
-            print("{0}, {1}".format(item[0], item[1]))
+            count += 1
+            print("{0}. {1} = {2}".format(count, str(item[0]), int(item[1])))
 
 
 if __name__ == "__main__":

@@ -1,5 +1,7 @@
 import datetime
 
+from analyzer import Analyzer
+
 if __name__ == "__main__":
     # time转换并获取时间间隔
     start_str = '2019-11-13 08:56:14,976'
@@ -27,3 +29,7 @@ if __name__ == "__main__":
     keys = sorted(peer_info.items(), key=lambda d: d[1])
     for item in keys:
         print("{0}, {1}".format(item[0], item[1]))
+
+    analyzer = Analyzer("127.0.0.1:8000")
+    analyzer.parse_network_hash("/Users/ericshu/Testing/logs/network-hash.log")
+    analyzer.parse_network_peer("/Users/ericshu/Testing/logs/network-peer.log")
