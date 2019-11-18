@@ -128,7 +128,9 @@ class Analyzer(object):
         # analyze block timespan
         begin_date = datetime.datetime.strptime(self.lib_hash_list[str(begin)]['time'], '%Y-%m-%d %H:%M:%S,%f')
         end_date = datetime.datetime.strptime(self.lib_hash_list[str(end)]['time'], '%Y-%m-%d %H:%M:%S,%f')
-        time_span = (end_date - begin_date).seconds
+        days = (end_date - begin_date).seconds
+        seconds = (end_date - begin_date).seconds
+        time_span = 3600 * 24 * days + seconds
         print('lib height from: {0}~{1}'.format(self.begin, self.end))
         print('lib time: {0}~{1}'.format(self.lib_hash_list[str(begin)]['time'], self.lib_hash_list[str(end)]['time']))
         print('average second/block: {0}s'.format(round(time_span / (self.end - self.begin), 3)))
