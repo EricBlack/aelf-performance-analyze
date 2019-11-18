@@ -322,11 +322,12 @@ class Analyzer(object):
                 peer_info[peer] = count
 
         sort_items = sorted(peer_info.items(), key=lambda d: d[1])
-        print('node received announcement times from peer info:')
+        print('node received announcement times from peer:')
         count = 0
         for item in sort_items:
             count += 1
             print("{0}. {1} = {2}".format(count, str(item[0]), int(item[1])))
+        print()
 
 
 if __name__ == "__main__":
