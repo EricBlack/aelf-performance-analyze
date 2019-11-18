@@ -13,6 +13,8 @@ lib_log = './log/lib-blocks.log'
 warn_log = './log/warn.log'
 error_log = './log/error.log'
 consensus_log = './log/consensus-extra-data.log'
+network_hash_log = './log/network-hash.log'
+network_peer_log = './log/network-peer.log'
 
 if __name__ == "__main__":
     config = config_instance.get_config()
@@ -24,6 +26,8 @@ if __name__ == "__main__":
         analyzer = Analyzer(config.Endpoint)
         analyzer.parse_blocks(block_log, config.Start, config.End)
         analyzer.parse_libs(lib_log, config.Start, config.End)
+        analyzer.parse_network_hash(network_hash_log)
+        analyzer.parse_network_peer(network_peer_log)
 
         analyzer.analyze_blocks()
         analyzer.analyze_continue_blocks()

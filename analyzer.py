@@ -292,6 +292,40 @@ class Analyzer(object):
             print('type: {0:6}ms, count: {1}'.format(item, consensus_summary[item]))
         print()
 
+    def parse_network_hash(self, network_hash_log):
+        print('=>analyze network announcement message log')
+        lines = Analyzer.read_file_line(network_hash_log)
+        count = Analyzer.file_line_count(network_hash_log)
+        if count == 0:
+            print("no announce received.")
+            return
+
+        total_times = 0
+        for line in lines:
+            message = line.split(" ")
+            times = int(message[0])
+            total_times += times
+        print('received block announce: {0}, total received times: {1}'.format(count, total_times))
+        print('average each block received announce times: {0}'.format(round(total_times/count, 2)))
+        print()
+
+    def parse_network_peer(self, network_peer_log):
+        lines = Analyzer.read_file_line(network_peer_log)
+        peer_info = {}
+        for line in lines:
+            message = line.split(" ")
+            count = int(message[0])
+            peer = message[1].replace(",", "")
+            if peer in peer_info.keys():
+                peer_info[peer] += count
+            else:
+                peer_info[peer] = count
+
+        sort_items = sorted(peer_info.items(), key=lambda d: d[1])
+        print('node received announcement times from peer info:')
+        for item in sort_items:
+            print("{0}, {1}".format(item[0], item[1]))
+
 
 if __name__ == "__main__":
     analyzer = Analyzer('http://127.0.0.1:80000')
