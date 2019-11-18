@@ -15,6 +15,7 @@ error_log = './log/error.log'
 consensus_log = './log/consensus-extra-data.log'
 network_hash_log = './log/network-hash.log'
 network_peer_log = './log/network-peer.log'
+network_req_block_log = './log/network-request-block.log'
 
 if __name__ == "__main__":
     config = config_instance.get_config()
@@ -28,6 +29,7 @@ if __name__ == "__main__":
         analyzer.parse_libs(lib_log, config.Start, config.End)
         analyzer.parse_network_hash(network_hash_log)
         analyzer.parse_network_peer(network_peer_log)
+        analyzer.parse_network_request_block(network_req_block_log)
 
         analyzer.analyze_blocks()
         analyzer.analyze_continue_blocks()

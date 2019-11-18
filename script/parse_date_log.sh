@@ -46,6 +46,7 @@ do
     grep "ShareInValueOfCurrentRound" ${log_path}/${file} |grep -v "grep" |awk '{print $2, substr($9,1,64), $13}' >>${data_path}/consensus-extra-data.log
     grep "Received announce" ${log_path}/${file} |awk '{print substr($9,2,64)}' |sort |uniq -c >>${data_path}/network-hash.log
     grep "Received announce" ${log_path}/${file} |awk '{print $13}' |sort |uniq -c |sort -n >>${data_path}/network-peer.log
+    grep "Getting block by hash" ${log_path}/${file} |awk '{print $16}' |sort -n |uniq -c |sort -n >>${data_path}/network-request-block.log
     grep "WARN" ${log_path}/${file} |grep -v "grep" >>${data_path}/warn.log
     grep "ERROR" ${log_path}/${file} |grep -v "grep" >>${data_path}/error.log
 done

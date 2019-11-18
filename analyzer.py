@@ -329,6 +329,26 @@ class Analyzer(object):
             print("{0}. {1} = {2}".format(count, str(item[0]), int(item[1])))
         print()
 
+    def parse_network_request_block(self, network_req_block_log):
+        lines = Analyzer.read_file_line(network_req_block_log)
+        peer_info = {}
+        for line in lines:
+            message = line.lstrip().split(" ")
+            count = int(message[0])
+            peer = message[1].replace(',', '').replace('\r', '').replace('\n', '')
+            if peer in peer_info.keys():
+                peer_info[peer] += count
+            else:
+                peer_info[peer] = count
+
+        sort_items = sorted(peer_info.items(), key=lambda d: d[1])
+        print('node request block times from peer:')
+        count = 0
+        for item in sort_items:
+            count += 1
+            print("{0}. {1} = {2}".format(count, str(item[0]), int(item[1])))
+        print()
+
 
 if __name__ == "__main__":
     analyzer = Analyzer('http://127.0.0.1:80000')
