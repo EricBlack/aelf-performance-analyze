@@ -306,7 +306,7 @@ class Analyzer(object):
             times = int(message[0])
             total_times += times
         print('received block announce: {0}, total received times: {1}'.format(count, total_times))
-        print('average each block received announce times: {0}'.format(round(total_times/count, 2)))
+        print('average each block received announce times: {0}'.format(round(total_times / count, 2)))
         print()
 
     def parse_network_peer(self, network_peer_log):
@@ -347,6 +347,53 @@ class Analyzer(object):
         for item in sort_items:
             count += 1
             print("{0}. {1} = {2}".format(count, str(item[0]), int(item[1])))
+        print()
+
+    def parse_network_reply_blocks(self, network_reply_blocks_log):
+        lines = Analyzer.read_file_line(network_reply_blocks_log)
+        count = Analyzer.file_line_count(network_reply_blocks_log)
+        request_blocks = 10 * count
+        reply_blocks = 0
+        reply_dic = {
+            'c_0': 0,
+            'c_1-9': 0,
+            'c_10': 0
+        }
+        peer_blocks = {}
+
+        for line in lines:
+            message = line.split(" ")
+            peer = message[0].replace(',', '')
+            reply_count = int(message[1].replace(',', ''))
+            reply_blocks += reply_count
+            # analyze count info
+            if reply_count == 10:
+                reply_dic['c_10'] += 1
+            elif reply_count == 0:
+                reply_dic['c_0'] += 1
+            else:
+                reply_dic['c_1-9'] += 1
+
+            # analyze peer info
+            if peer in peer_blocks.keys():
+                info = peer_blocks[peer]
+                info['times'] += 1
+                info['total_count'] += reply_count
+                peer_blocks[peer] = info
+            else:
+                info = {'times': 1, "total_count": reply_count}
+                peer_blocks[peer] = info
+        print('request blocks count: {0}, reply blocks count: {1}'.format(request_blocks, reply_blocks))
+        print('reply blocks analyze:')
+        print('reply 10 blocks times: {0}'.format(reply_dic['c_10']))
+        print('reply 0 blocks times: {0}'.format(reply_dic['c_0']))
+        print('reply 1-9 blocks times: {0}'.format(reply_dic['c_1-9']))
+        print('reply peer blocks analyze:')
+
+        sort_items = sorted(peer_blocks.items(), key=lambda d: d[1]['times'])
+        for item in sort_items:
+            print('peer: {0}  request blocks: {1},  reply blocks: {2}'.format(item[0], item[1]["times"] * 10,
+                                                                              item[1]["total_count"]))
         print()
 
 

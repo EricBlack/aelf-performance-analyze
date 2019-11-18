@@ -33,3 +33,4 @@ if __name__ == "__main__":
     analyzer = Analyzer("127.0.0.1:8000")
     analyzer.parse_network_hash("/Users/ericshu/Testing/logs/network-hash.log")
     analyzer.parse_network_peer("/Users/ericshu/Testing/logs/network-peer.log")
+    analyzer.parse_network_reply_blocks("/Users/ericshu/Testing/logs/network-reply-blocks.log")
