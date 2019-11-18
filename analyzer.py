@@ -128,7 +128,7 @@ class Analyzer(object):
         # analyze block timespan
         begin_date = datetime.datetime.strptime(self.lib_hash_list[str(begin)]['time'], '%Y-%m-%d %H:%M:%S,%f')
         end_date = datetime.datetime.strptime(self.lib_hash_list[str(end)]['time'], '%Y-%m-%d %H:%M:%S,%f')
-        days = (end_date - begin_date).seconds
+        days = (end_date - begin_date).days
         seconds = (end_date - begin_date).seconds
         time_span = 3600 * 24 * days + seconds
         print('lib height from: {0}~{1}'.format(self.begin, self.end))
