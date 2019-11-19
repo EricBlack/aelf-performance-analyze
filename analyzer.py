@@ -19,6 +19,7 @@ class Analyzer(object):
         "warn2": "Block validate fails before execution",
         "warn3": "Mining canceled because best chain already updated",
         "warn4": "cannot get block hash",
+        "warn5": "Remove bad peer"
     }
     error_msgs = {
         "err1": "Error during discover",
