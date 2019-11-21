@@ -12,6 +12,7 @@ block_log = './log/gen-blocks.log'
 lib_log = './log/lib-blocks.log'
 warn_log = './log/warn.log'
 error_log = './log/error.log'
+bad_peer_log = './log/bad-peer.log'
 consensus_log = './log/consensus-extra-data.log'
 network_hash_log = './log/network-hash.log'
 network_peer_log = './log/network-peer.log'
@@ -48,6 +49,7 @@ if __name__ == "__main__":
         analyzer.parse_consensus_data(consensus_log)
         analyzer.parse_warn(warn_log)
         analyzer.parse_error(error_log)
+        analyzer.parse_bad_peer(bad_peer_log)
     except Exception as e:
         print('Exception: ', str(e))
         print()

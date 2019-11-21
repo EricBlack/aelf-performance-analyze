@@ -248,6 +248,15 @@ class Analyzer(object):
         print('type=others, count={0}'.format(other_error))
         print()
 
+    def parse_bad_peer(self, bad_peer_log):
+        count = Analyzer.file_line_count(bad_peer_log)
+        if count == 0:
+            return
+        print("=>bad peer log files")
+        lines = Analyzer.read_file_line(bad_peer_log)
+        for line in lines:
+            print(line)
+
     def parse_consensus_data(self, consensus_log):
         print('=>analyze consensus extra data log')
 

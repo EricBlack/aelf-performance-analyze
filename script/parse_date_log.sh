@@ -48,8 +48,13 @@ do
     grep "Received announce" ${log_path}/${file} |awk '{print $13}' |sort |uniq -c |sort -n >>${data_path}/network-peer.log
     grep "Getting block by hash" ${log_path}/${file} |awk '{print $16}' |sort -n |uniq -c |sort -n >>${data_path}/network-request-block.log
     grep "Replied to" ${log_path}/${file} |awk '{print $11, $16}' >>${data_path}/network-reply-blocks.log
-    grep "WARN" ${log_path}/${file} |grep -v "grep" >>${data_path}/warn.log
+    grep "WARN" ${log_path}/${file} |grep -v "grep\|WARNING" >>${data_path}/warn.log
     grep "ERROR" ${log_path}/${file} |grep -v "grep" >>${data_path}/error.log
+    #bad peer
+    count=`grep "bad peer" ${log_path}/${file} |wc -l`
+    if [[ ${count} > 0 ]];then
+        echo "${file}  ${count}" >>${data_path}/bad-peer.log
+    fi
 done
 echo "log handle completed"
 echo ""
