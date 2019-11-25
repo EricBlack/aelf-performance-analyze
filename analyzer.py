@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 
 import datetime
+import os
 
 
 class Analyzer(object):
@@ -44,6 +45,8 @@ class Analyzer(object):
 
     @staticmethod
     def file_line_count(file):  # 读取文件行数
+        if not os.path.exists(file):
+            return 0
         count = -1
         for count, line in enumerate(open(file, 'rU')):
             pass
@@ -105,7 +108,7 @@ class Analyzer(object):
         for line in lines:
             message = line.split(" ")
             time = message[0] + ' ' + message[1]
-            height = int(str(message[2]).replace(",", ""))
+            height = int(str(message[2]).replace("\"", ""))
             lib_hash = message[3].replace("\n", "")
 
             if low_height != 0 and height < low_height:
@@ -408,5 +411,8 @@ class Analyzer(object):
 
 
 if __name__ == "__main__":
-    analyzer = Analyzer('http://127.0.0.1:80000')
-    analyzer.parse_consensus_data('./log/consensus-extra-data.log')
+    analyzer = Analyzer('http://127.0.0.1:8000')
+    analyzer.parse_blocks("/Users/ericshu/Testing/logs/ana_logs/log/gen-blocks.log", 6000, 13000)
+    analyzer.parse_libs("/Users/ericshu/Testing/logs/ana_logs/log/lib-blocks.log", 6000, 13000)
+    analyzer.analyze_blocks()
+    print("complete debug.")
