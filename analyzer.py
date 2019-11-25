@@ -107,6 +107,8 @@ class Analyzer(object):
         lines = Analyzer.read_file_line(lib_file)
         for line in lines:
             message = line.split(" ")
+            if message[2] == '':
+                continue
             time = message[0] + ' ' + message[1]
             height = int(str(message[2]).replace("\"", ""))
             lib_hash = message[3].replace("\n", "")
@@ -412,7 +414,7 @@ class Analyzer(object):
 
 if __name__ == "__main__":
     analyzer = Analyzer('http://127.0.0.1:8000')
-    analyzer.parse_blocks("/Users/ericshu/Testing/logs/ana_logs/log/gen-blocks.log", 6000, 13000)
-    analyzer.parse_libs("/Users/ericshu/Testing/logs/ana_logs/log/lib-blocks.log", 6000, 13000)
+    analyzer.parse_blocks("/Users/ericshu/Testing/logs/ana_logs/gen-blocks.log", 27000, 27900)
+    analyzer.parse_libs("/Users/ericshu/Testing/logs/ana_logs/lib-blocks.log", 27000, 27900)
     analyzer.analyze_blocks()
     print("complete debug.")

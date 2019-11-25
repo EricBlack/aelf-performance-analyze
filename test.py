@@ -3,6 +3,12 @@ import datetime
 from analyzer import Analyzer
 
 if __name__ == "__main__":
+    # convert string
+    lines = Analyzer.read_file_line('./log/lib-blocks.log')
+    for line in lines:
+        message = line.split(" ")
+        height = int(str(message[2]).replace("\"", ""))
+
     # time转换并获取时间间隔
     start_str = '2019-11-13 08:56:14,976'
     end_str = '2019-11-18 06:12:58,995'
