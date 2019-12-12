@@ -494,7 +494,7 @@ class Analyzer(object):
 
         count_items = len(blocks_status_info.keys())
         print('block status analyze:')
-        for k in range(count_items - 1):
+        for k in range(count_items):
             key = str(k + 1)
             print("{0}. time:{1}-{2} height:{3}-{4} status:{5} count:{6}"
                   .format(key, blocks_status_info[key]["start_time"], blocks_status_info[key]["end_time"],
