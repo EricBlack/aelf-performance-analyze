@@ -470,7 +470,7 @@ class Analyzer(object):
                         "end_time": end_time,
                         "start_height": start_height,
                         "end_height": end_height,
-                        "status": status_info,
+                        "status": block_status,
                         "blocks": end_height - start_height + 1
                     }
                     start_height = height_info
@@ -488,7 +488,7 @@ class Analyzer(object):
             "end_time": end_time,
             "start_height": start_height,
             "end_height": end_height,
-            "status": status_info,
+            "status": block_status,
             "blocks": end_height - start_height + 1
         }
 
