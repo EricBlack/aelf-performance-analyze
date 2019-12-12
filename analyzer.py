@@ -494,12 +494,39 @@ class Analyzer(object):
 
         count_items = len(blocks_status_info.keys())
         print('block status analyze:')
+        normal_status_info = None
+        item_id = 1
+        last_output = None
         for k in range(count_items):
             key = str(k + 1)
+            if blocks_status_info[key]["status"] != "Severe":
+                if None == normal_status_info:
+                    normal_status_info = blocks_status_info[key]
+                    normal_status_info["status"] = "Normal"
+                    last_output = False
+                else:
+                    normal_status_info["end_time"] = blocks_status_info[key]["end_time"]
+                    normal_status_info["end_height"] = blocks_status_info[key]["end_height"]
+                    normal_status_info["blocks"] += blocks_status_info[key]["blocks"]
+                    last_output = False
+            else:
+                print("{0}. time:{1}-{2} height:{3}-{4} status:{5} count:{6}"
+                      .format(item_id, normal_status_info["start_time"], normal_status_info["end_time"],
+                              normal_status_info["start_height"], normal_status_info["end_height"],
+                              normal_status_info["status"], normal_status_info["blocks"]))
+                last_output = True
+
+                item_id += 1
+                print("{0}. time:{1}-{2} height:{3}-{4} status:{5} count:{6}"
+                      .format(item_id, blocks_status_info[key]["start_time"], blocks_status_info[key]["end_time"],
+                              blocks_status_info[key]["start_height"], blocks_status_info[key]["end_height"],
+                              blocks_status_info[key]["status"], blocks_status_info[key]["blocks"]))
+                normal_status_info = None
+        if not last_output:
             print("{0}. time:{1}-{2} height:{3}-{4} status:{5} count:{6}"
-                  .format(key, blocks_status_info[key]["start_time"], blocks_status_info[key]["end_time"],
-                          blocks_status_info[key]["start_height"], blocks_status_info[key]["end_height"],
-                          blocks_status_info[key]["status"], blocks_status_info[key]["blocks"]))
+                  .format(item_id, normal_status_info["start_time"], normal_status_info["end_time"],
+                          normal_status_info["start_height"], normal_status_info["end_height"],
+                          normal_status_info["status"], normal_status_info["blocks"]))
 
 
 if __name__ == "__main__":
