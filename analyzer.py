@@ -411,10 +411,102 @@ class Analyzer(object):
                                                                               item[1]["total_count"]))
         print()
 
+    def parse_block_status(self, blocks_status_log):
+        calculate_msg = "Calculating max blocks count"
+        status_msg = "Current blockchain mining status"
+
+        lines = Analyzer.read_file_line(blocks_status_log)
+        blocks_status_info = {}
+        # summary item info
+        count = 0
+        start_height = 0
+        end_height = 0
+        start_time = ""
+        end_time = ""
+        block_status = ""
+
+        # temp item info
+        time_info = ""
+        height_info = ""
+        status_info = ""
+
+        for line in lines:
+            if calculate_msg in line:
+                message = line.lstrip().split(" ")
+                time_info = message[0] + message[1]
+                continue
+            if "R_LIB:" in line:
+                continue
+            if "H_LIB:" in line:
+                continue
+            if "R:" in line:
+                continue
+            if "--\n" in line:
+                continue
+            if "H:" in line:
+                message = line.lstrip().split(":")
+                height_info = int(message[1].replace('\n', ''))
+                continue
+            if status_msg in line:
+                message = line.lstrip().split(' ')
+                status_info = message[16].replace('\n', '')
+
+                # verify item
+                if start_time == "":
+                    start_height = height_info
+                    end_height = height_info
+                    start_time = time_info
+                    end_time = time_info
+                    block_status = status_info
+                    continue
+                if block_status == status_info and end_height != height_info:
+                    end_time = time_info
+                    end_height = height_info
+                    continue
+                if block_status != status_info:
+                    count += 1
+                    blocks_status_info[str(count)] = {
+                        "start_time": start_time,
+                        "end_time": end_time,
+                        "start_height": start_height,
+                        "end_height": end_height,
+                        "status": status_info,
+                        "blocks": end_height - start_height + 1
+                    }
+                    start_height = height_info
+                    end_height = height_info
+                    start_time = time_info
+                    end_time = time_info
+                    block_status = status_info
+                    continue
+            else:
+                continue
+
+        count += 1
+        blocks_status_info[str(count)] = {
+            "start_time": start_time,
+            "end_time": end_time,
+            "start_height": start_height,
+            "end_height": end_height,
+            "status": status_info,
+            "blocks": end_height - start_height + 1
+        }
+
+        count_items = len(blocks_status_info.keys())
+        print('block status analyze:')
+        for k in range(count_items - 1):
+            key = str(k + 1)
+            print("{0}. time:{1}-{2} height:{3}-{4} status:{5} count:{6}"
+                  .format(key, blocks_status_info[key]["start_time"], blocks_status_info[key]["end_time"],
+                          blocks_status_info[key]["start_height"], blocks_status_info[key]["end_height"],
+                          blocks_status_info[key]["status"], blocks_status_info[key]["blocks"]))
+
 
 if __name__ == "__main__":
     analyzer = Analyzer('http://127.0.0.1:8000')
-    analyzer.parse_blocks("/Users/ericshu/Testing/logs/ana_logs/gen-blocks.log", 27000, 27900)
-    analyzer.parse_libs("/Users/ericshu/Testing/logs/ana_logs/lib-blocks.log", 27000, 27900)
-    analyzer.analyze_blocks()
+    analyzer.parse_block_status("/Users/ericshu/Testing/logs/block-status.log")
+
+    # analyzer.parse_blocks("/Users/ericshu/Testing/logs/ana_logs/gen-blocks.log", 27000, 27900)
+    # analyzer.parse_libs("/Users/ericshu/Testing/logs/ana_logs/lib-blocks.log", 27000, 27900)
+    # analyzer.analyze_blocks()
     print("complete debug.")

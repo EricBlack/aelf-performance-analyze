@@ -14,6 +14,7 @@ warn_log = './log/warn.log'
 error_log = './log/error.log'
 bad_peer_log = './log/bad-peer.log'
 consensus_log = './log/consensus-extra-data.log'
+consensus_block_status_log = './log/block-status.log'
 network_hash_log = './log/network-hash.log'
 network_peer_log = './log/network-peer.log'
 network_req_block_log = './log/network-request-block.log'
@@ -47,6 +48,7 @@ if __name__ == "__main__":
 
         # analyze log info
         analyzer.parse_consensus_data(consensus_log)
+        analyzer.parse_block_status(consensus_block_status_log)
         analyzer.parse_warn(warn_log)
         analyzer.parse_error(error_log)
         analyzer.parse_bad_peer(bad_peer_log)
