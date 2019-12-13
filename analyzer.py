@@ -521,7 +521,9 @@ class Analyzer(object):
                       .format(item_id, blocks_status_info[key]["start_time"], blocks_status_info[key]["end_time"],
                               blocks_status_info[key]["start_height"], blocks_status_info[key]["end_height"],
                               blocks_status_info[key]["status"], blocks_status_info[key]["blocks"]))
+                item_id += 1
                 normal_status_info = None
+
         if not last_output:
             print("{0}. time:{1}-{2} height:{3}-{4} status:{5} count:{6}"
                   .format(item_id, normal_status_info["start_time"], normal_status_info["end_time"],
