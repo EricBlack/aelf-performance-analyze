@@ -161,6 +161,10 @@ class Analyzer(object):
               .format(valid_no, invalid_no, (total_no - valid_no - invalid_no)))
         if total_no != 0:
             print('forked block percent: {0}%'.format(round(invalid_no * 100 / total_no, 2)))
+        # print fork blocks hash
+        print('forked blocks hash information')
+        for key in self.invalid_blocks.keys():
+            print('block hash: {0}, block height: {1}'.format(self.invalid_blocks[key]['hash'], key))
         print()
 
     def analyze_continue_blocks(self):
